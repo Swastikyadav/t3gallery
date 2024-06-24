@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { SignedOut, SignedIn } from "@clerk/nextjs";
-
-import { db } from "~/server/db";
+import { getMyImages } from "~/server/queries";
 
 // Force renders the page on demand (on every refresh)
 export const dynamic = "force-dynamic";
@@ -22,9 +21,7 @@ export default function HomePage() {
 }
 
 async function Images() {
-  const images = await db.query.images.findMany({
-    orderBy: (model, { desc }) => desc(model.id),
-  });
+  const images = await getMyImages();
 
   return (
     <div className="flex flex-wrap gap-4">
